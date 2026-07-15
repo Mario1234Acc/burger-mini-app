@@ -1,8 +1,8 @@
-import { useState, useMemo, useEffect } from 'react';
-import {
-  Home, Calendar, FileText, User, Search,
-  MapPin, Filter, ChevronLeft, ChevronRight,
-  CheckCircle2, Clock, Check, Eye, Share2, Phone, X,
+import React, { useState, useMemo, useEffect } from 'react';
+import { 
+  Home, Calendar, FileText, User, Search, 
+  MapPin, Filter, ChevronLeft, ChevronRight, 
+  CheckCircle2, Clock, Check, Eye, Share2, Phone, X, 
   AlertCircle, Building2, CalendarCheck, ArrowLeftRight,
   Stethoscope, ChevronDown, DoorOpen, MessageSquare, AlertOctagon,
   LogOut, Users, Bell
@@ -54,12 +54,12 @@ const DEFAULT_APPOINTMENTS = [
   { id: 104, clinic: CLINICS[0], service: 'Cardiology', doctor: DOCTORS[1], date: 'Jul 28, 2026', time: '04:00 PM', status: 'Call Hospital' },
 ];
 
-const SpecialtyBadges = ({ specialties }) => {
+const SpecialtyBadges = ({ specialties }: { specialties: string[] }) => {
   const display = specialties.slice(0, 3);
   const remaining = specialties.length - 3;
   return (
     <div className="flex flex-wrap gap-1.5 mt-2">
-      {display.map(s => (
+      {display.map((s: string) => (
         <span key={s} className="text-[10px] font-semibold bg-zinc-100 text-zinc-600 px-2 py-1 rounded-md">
           {s}
         </span>
@@ -73,7 +73,7 @@ const SpecialtyBadges = ({ specialties }) => {
   );
 };
 
-const Modal = ({ isOpen, onClose, title, children }) => {
+const Modal = ({ isOpen, onClose, title, children }: { isOpen: boolean, onClose: () => void, title: string, children: React.ReactNode }) => {
   if (!isOpen) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-900/40 backdrop-blur-sm animate-fade-in">
@@ -96,7 +96,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
   );
 };
 
-const Header = ({ title, user, onBack, rightAction }) => (
+const Header = ({ title, user, onBack, rightAction }: { title?: string, user?: any, onBack?: () => void, rightAction?: React.ReactNode }) => (
   <header className="px-6 py-4 flex items-center justify-between bg-zinc-50/80 backdrop-blur-md sticky top-0 z-20">
     {onBack ? (
       <button onClick={onBack} type="button" className="p-2 -ml-2 text-zinc-800 hover:bg-white rounded-full transition-all active:scale-90 shadow-sm border border-zinc-100 bg-white">
@@ -121,8 +121,8 @@ const Header = ({ title, user, onBack, rightAction }) => (
   </header>
 );
 
-const RoleSelectionScreen = ({ onSelectRole }) => {
-  const [selected, setSelected] = useState(null);
+const RoleSelectionScreen = ({ onSelectRole }: { onSelectRole: (role: string) => void }) => {
+  const [selected, setSelected] = useState<string | null>(null);
   const [text, setText] = useState('');
   const fullText = "Welcome to QlinicOS";
   const [showCursor, setShowCursor] = useState(true);
@@ -224,7 +224,7 @@ const RoleSelectionScreen = ({ onSelectRole }) => {
       <div className={`mt-auto pt-8 pb-4 relative z-10 transition-all duration-1000 transform ${text.length >= fullText.length ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
         <button 
           disabled={!selected}
-          onClick={() => onSelectRole(selected)}
+          onClick={() => selected && onSelectRole(selected)}
           className={`w-full py-4 rounded-full font-bold text-lg transition-all duration-500 flex items-center justify-center gap-2 ${
             selected 
               ? 'bg-teal-600 text-white shadow-[0_8px_30px_rgba(13,148,136,0.3)] active:scale-95 transform translate-y-0' 
@@ -238,7 +238,7 @@ const RoleSelectionScreen = ({ onSelectRole }) => {
   );
 };
 
-const HomeScreen = ({ onSelectClinic }) => {
+const HomeScreen = ({ onSelectClinic }: { onSelectClinic: (clinic: any) => void }) => {
   const [isMapView, setIsMapView] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [filterProvince, setFilterProvince] = useState('All');
@@ -384,7 +384,7 @@ const HomeScreen = ({ onSelectClinic }) => {
   );
 };
 
-const ClinicDetailScreen = ({ clinic, onBack, onBook }) => {
+const ClinicDetailScreen = ({ clinic, onBack, onBook }: { clinic: any, onBack: () => void, onBook: (details: any) => void }) => {
   const [selectedService, setSelectedService] = useState(SERVICES[0]);
   const [selectedDoctor, setSelectedDoctor] = useState(DOCTORS[0]);
   const [date, setDate] = useState('');
@@ -551,10 +551,10 @@ const ClinicDetailScreen = ({ clinic, onBack, onBook }) => {
   );
 };
 
-const AppointmentScreen = ({ appointments }) => {
-  const [selectedApt, setSelectedApt] = useState(null);
+const AppointmentScreen = ({ appointments }: { appointments: any[] }) => {
+  const [selectedApt, setSelectedApt] = useState<any | null>(null);
 
-  const getStatusDisplay = (status) => {
+  const getStatusDisplay = (status: string) => {
     switch(status) {
       case 'Approved': return { style: 'text-teal-700 bg-teal-50', icon: CheckCircle2 };
       case 'Pending': return { style: 'text-amber-700 bg-amber-50', icon: Clock };
@@ -578,7 +578,7 @@ const AppointmentScreen = ({ appointments }) => {
         </div>
       ) : (
         <div className="space-y-4">
-          {appointments.map((apt) => {
+          {appointments.map((apt: any) => {
             const statusCfg = getStatusDisplay(apt.status || 'Approved');
             const StatusIcon = statusCfg.icon;
             
@@ -648,7 +648,7 @@ const AppointmentScreen = ({ appointments }) => {
 };
 
 const RecordScreen = () => {
-  const [previewSoap, setPreviewSoap] = useState(null);
+  const [previewSoap, setPreviewSoap] = useState<any | null>(null);
 
   return (
     <main className="px-6 animate-fade-in pb-32">
@@ -725,7 +725,7 @@ const RecordScreen = () => {
   );
 };
 
-const ProfileScreen = ({ onSwitchApp }) => (
+const ProfileScreen = ({ onSwitchApp }: { onSwitchApp: () => void }) => (
   <main className="px-6 animate-fade-in pb-32">
     <div className="bg-white rounded-3xl p-6 text-center border border-zinc-100 shadow-sm mb-6 flex flex-col items-center">
         <div className={`w-20 h-20 rounded-full ${USER.avatar} flex items-center justify-center font-bold text-2xl mb-4 border-4 border-white shadow-md`}>
@@ -755,25 +755,26 @@ const ProfileScreen = ({ onSwitchApp }) => (
   </main>
 );
 
-const ClinicDashboardScreen = ({ appointments, updateAppointment, onSwitchApp }) => {
+const ClinicDashboardScreen = ({ appointments, updateAppointment, onSwitchApp }: { appointments: any[], updateAppointment: (id: number, updates: any) => void, onSwitchApp: () => void }) => {
   const [activeView, setActiveView] = useState('REQUESTS'); 
   
   // State for advanced approval process
-  const [approveTarget, setApproveTarget] = useState(null);
+  const [approveTarget, setApproveTarget] = useState<any | null>(null);
   const [approveForm, setApproveForm] = useState({ room: 'Consultation Room 1', note: '' });
   
   // State for advanced rejection process
-  const [rejectTarget, setRejectTarget] = useState(null);
+  const [rejectTarget, setRejectTarget] = useState<any | null>(null);
   const [rejectForm, setRejectForm] = useState({ reason: 'Fully Booked', customNote: '' });
 
   // Filter for clinic view
-  const myClinicAppointments = appointments.filter(a => a.clinic.name === CLINICS[0].name);
+  const myClinicAppointments = appointments.filter((a: any) => a.clinic.name === CLINICS[0].name);
   
   // Segmented Data
-  const pendingRequests = myClinicAppointments.filter(a => a.status === 'Pending');
-  const fullSchedule = [...myClinicAppointments].sort((a,b) => new Date(a.date) - new Date(b.date));
+  const pendingRequests = myClinicAppointments.filter((a: any) => a.status === 'Pending');
+  const fullSchedule = [...myClinicAppointments].sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
   const handleConfirmApprove = () => {
+    if (!approveTarget) return;
     updateAppointment(approveTarget.id, { 
       status: 'Approved', 
       room: approveForm.room,
@@ -784,6 +785,7 @@ const ClinicDashboardScreen = ({ appointments, updateAppointment, onSwitchApp })
   };
 
   const handleConfirmReject = () => {
+    if (!rejectTarget) return;
     const finalReason = rejectForm.reason === 'Other' ? rejectForm.customNote : `${rejectForm.reason}. ${rejectForm.customNote}`;
     updateAppointment(rejectTarget.id, { 
       status: 'Cancelled', 
@@ -873,7 +875,7 @@ const ClinicDashboardScreen = ({ appointments, updateAppointment, onSwitchApp })
                  <p className="text-slate-500 text-sm mt-1">Your review queue is completely clear.</p>
                </div>
             ) : (
-              pendingRequests.map(apt => (
+              pendingRequests.map((apt: any) => (
                 <div key={apt.id} className="bg-white rounded-[28px] p-5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 relative overflow-hidden group">
                    <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-amber-400 to-orange-400"></div>
                    
@@ -940,7 +942,7 @@ const ClinicDashboardScreen = ({ appointments, updateAppointment, onSwitchApp })
                <p className="text-slate-500 text-center mt-10">Schedule is empty.</p>
             ) : (
               <div className="space-y-0">
-                {fullSchedule.map((apt, idx) => (
+                {fullSchedule.map((apt: any) => (
                   <div key={apt.id} className="relative pl-6 pb-6 border-l-2 border-slate-200 last:border-l-transparent">
                      {/* Timeline Node */}
                      <div className={`absolute -left-[7px] top-2 w-3 h-3 rounded-full ring-4 ring-slate-50 ${apt.status === 'Approved' ? 'bg-teal-500' : apt.status === 'Pending' ? 'bg-amber-400' : apt.status === 'Cancelled' ? 'bg-slate-300' : 'bg-blue-500'}`}></div>
@@ -1101,20 +1103,20 @@ export default function App() {
   // Patient App States
   const [activeTab, setActiveTab] = useState('Home');
   const [currentScreen, setCurrentScreen] = useState('MAIN'); 
-  const [selectedClinic, setSelectedClinic] = useState(null);
+  const [selectedClinic, setSelectedClinic] = useState<any | null>(null);
 
   // Global Handlers
-  const updateAppointment = (id, updates) => {
+  const updateAppointment = (id: number, updates: any) => {
     setGlobalAppointments(prev => prev.map(apt => apt.id === id ? { ...apt, ...updates } : apt));
   };
 
   // Patient Flow Handlers
-  const handleClinicSelect = (clinic) => {
+  const handleClinicSelect = (clinic: any) => {
     setSelectedClinic(clinic);
     setCurrentScreen('DETAIL');
   };
 
-  const handleBookingConfirm = (details) => {
+  const handleBookingConfirm = (details: any) => {
     const newApt = { ...details, id: Date.now(), status: 'Pending' }; 
     setGlobalAppointments(prev => [newApt, ...prev]);
     setCurrentScreen('MAIN');
