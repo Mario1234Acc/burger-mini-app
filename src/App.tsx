@@ -21,7 +21,7 @@ export default function App() {
   const [currentScreen, setCurrentScreen] = useState('MAIN');
   const [selectedClinic, setSelectedClinic] = useState<Clinic | null>(null);
 
-  const [currentUser, setCurrentUser] = useState<TelegramUser | null>(() => {
+  const [currentUser] = useState<TelegramUser | null>(() => {
     const tgUser = WebApp?.initDataUnsafe?.user;
     return tgUser
       ? {

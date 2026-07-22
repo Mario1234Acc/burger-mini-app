@@ -1,4 +1,4 @@
-import { ArrowLeftRight, UserCircle2, Phone, MessageCircle } from 'lucide-react';
+import { ArrowLeftRight, UserCircle2, MessageCircle } from 'lucide-react';
 
 interface TelegramUser {
   id: number;
