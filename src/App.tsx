@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Calendar, FileText, Home, User } from 'lucide-react';
 import { Header } from './components/common/Header';
-import { DEFAULT_APPOINTMENTS, USER } from './constants/appData';
+import type { TelegramUser } from './components/common/Header';
+import { DEFAULT_APPOINTMENTS } from './constants/appData';
 import { ClinicDashboardScreen } from './pages/clinic/ClinicDashboardScreen';
 import { RoleSelectionScreen } from './pages/RoleSelectionScreen';
 import { AppointmentScreen } from './pages/patient/AppointmentScreen';
@@ -20,27 +21,23 @@ export default function App() {
   const [currentScreen, setCurrentScreen] = useState('MAIN');
   const [selectedClinic, setSelectedClinic] = useState<Clinic | null>(null);
 
-  const [currentUser, setCurrentUser] = useState<any>(USER);
+  const [currentUser, setCurrentUser] = useState<TelegramUser | null>(() => {
+    const tgUser = WebApp?.initDataUnsafe?.user;
+    return tgUser
+      ? {
+          id: tgUser.id,
+          first_name: tgUser.first_name || '',
+          last_name: tgUser.last_name || undefined,
+          username: tgUser.username || undefined,
+          photo_url: tgUser.photo_url || undefined,
+        }
+      : null;
+  });
 
   useEffect(() => {
     if (WebApp) {
-      // 1. Tell Telegram the app is ready & expand to full view height
       WebApp.ready();
       WebApp.expand();
-
-      // 2. Catch the user profile from Telegram
-      const tgUser = WebApp.initDataUnsafe?.user;
-      if (tgUser) {
-        setCurrentUser({
-          id: tgUser.id,
-          first_name: tgUser.first_name,
-          last_name: tgUser.last_name || '',
-          username: tgUser.username,
-          photo_url: tgUser.photo_url,
-          // Keep compatibility with existing UI props if needed
-          name: `${tgUser.first_name} ${tgUser.last_name || ''}`.trim(),
-        });
-      }
     }
   }, []);
 
@@ -69,7 +66,7 @@ export default function App() {
       case 'Record':
         return <RecordScreen />;
       case 'Profile':
-        return <ProfileScreen onSwitchApp={() => setAppMode('CLINIC')} user={currentUser} />;
+        return <ProfileScreen onSwitchApp={() => setAppMode('CLINIC')} />;
       default:
         return <HomeScreen onSelectClinic={handleClinicSelect} />;
     }
