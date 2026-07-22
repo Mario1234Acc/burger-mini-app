@@ -1,8 +1,15 @@
 import { useState } from 'react';
 import { Building2, ChevronDown, Filter, MapPin, Search, Stethoscope } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+
 import { CLINICS } from '../../constants/appData';
 import { SpecialtyBadges } from '../../components/common/SpecialtyBadges';
-import { Modal } from '../../components/ui/Modal';
 import type { Clinic } from '../../types';
 
 interface HomeScreenProps {
@@ -103,54 +110,78 @@ export const HomeScreen = ({ onSelectClinic }: HomeScreenProps) => {
         </div>
       )}
 
-      <Modal isOpen={isFilterOpen} onClose={() => setIsFilterOpen(false)} title="Filter Clinics">
-        <div className="space-y-5">
-          <div>
-            <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-2">Province in Cambodia</label>
-            <div className="relative">
-              <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" size={18} />
-              <select
-                value={filterProvince}
-                onChange={(e) => setFilterProvince(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 rounded-xl border border-zinc-200 bg-white outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-200 text-sm font-medium appearance-none cursor-pointer"
-              >
-                {PROVINCES.map((province) => <option key={province} value={province}>{province === 'All' ? 'All Provinces' : province}</option>)}
-              </select>
-              <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400 pointer-events-none" size={16} />
+      {/* shadcn Dialog Component */}
+      <Dialog open={isFilterOpen} onOpenChange={setIsFilterOpen}>
+        <DialogContent className="sm:max-w-[425px] rounded-[32px] p-6 bg-white border-zinc-100 shadow-xl">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-bold text-zinc-900">Filter Clinics</DialogTitle>
+          </DialogHeader>
+
+          <div className="space-y-6 py-2">
+            <div>
+              <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-2">
+                Province in Cambodia
+              </label>
+              <div className="relative">
+                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" size={18} />
+                <select
+                  value={filterProvince}
+                  onChange={(e) => setFilterProvince(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3.5 rounded-2xl border border-zinc-200 bg-zinc-50/50 outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-200 text-sm font-medium appearance-none cursor-pointer"
+                >
+                  {PROVINCES.map((province) => (
+                    <option key={province} value={province}>
+                      {province === 'All' ? 'All Provinces' : province}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400 pointer-events-none" size={16} />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-2">
+                Specialty
+              </label>
+              <div className="relative">
+                <Stethoscope className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" size={18} />
+                <select
+                  value={filterSpecialty}
+                  onChange={(e) => setFilterSpecialty(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3.5 rounded-2xl border border-zinc-200 bg-zinc-50/50 outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-200 text-sm font-medium appearance-none cursor-pointer"
+                >
+                  {SPECIALTIES.map((specialty) => (
+                    <option key={specialty} value={specialty}>
+                      {specialty === 'All' ? 'All Specialties' : specialty}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400 pointer-events-none" size={16} />
+              </div>
             </div>
           </div>
 
-          <div>
-            <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-2">Specialty</label>
-            <div className="relative">
-              <Stethoscope className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" size={18} />
-              <select
-                value={filterSpecialty}
-                onChange={(e) => setFilterSpecialty(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 rounded-xl border border-zinc-200 bg-white outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-200 text-sm font-medium appearance-none cursor-pointer"
-              >
-                {SPECIALTIES.map((specialty) => <option key={specialty} value={specialty}>{specialty === 'All' ? 'All Specialties' : specialty}</option>)}
-              </select>
-              <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400 pointer-events-none" size={16} />
-            </div>
-          </div>
-
-          <div className="flex gap-3 pt-4 border-t border-zinc-100 mt-6">
-            <button
-              onClick={() => { setFilterProvince('All'); setFilterSpecialty('All'); setIsFilterOpen(false); }}
-              className="flex-1 py-3.5 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold active:scale-95 transition-all"
+          <div className="flex gap-3 pt-4 border-t border-zinc-100 mt-2">
+            <Button
+              variant="outline"
+              onClick={() => {
+                setFilterProvince('All');
+                setFilterSpecialty('All');
+                setIsFilterOpen(false);
+              }}
+              className="flex-1 h-14 rounded-xl border-zinc-200 text-zinc-600 font-bold hover:bg-zinc-100"
             >
               Reset
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => setIsFilterOpen(false)}
-              className="flex-[2] py-3.5 bg-teal-600 hover:bg-teal-700 text-white rounded-xl font-bold shadow-[0_8px_20px_rgba(13,148,136,0.25)] active:scale-95 transition-all"
+              className="flex-[2] h-14 bg-teal-600 hover:bg-teal-700 text-white rounded-xl font-bold shadow-[0_8px_20px_rgba(13,148,136,0.25)]"
             >
               Apply Filters
-            </button>
+            </Button>
           </div>
-        </div>
-      </Modal>
+        </DialogContent>
+      </Dialog>
     </main>
   );
 };

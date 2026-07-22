@@ -18,7 +18,7 @@ export const RoleSelectionScreen = ({ onSelectRole }: RoleSelectionScreenProps) 
   ];
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] flex flex-col font-sans px-6 py-8 relative overflow-hidden">
+    <div className="min-h-screen bg-white flex flex-col font-sans px-6 py-8 relative overflow-hidden">
       <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[40%] bg-teal-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }}></div>
       <div className="absolute bottom-[-10%] right-[-10%] w-[70%] h-[50%] bg-emerald-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s', animationDelay: '1s' }}></div>
 
@@ -45,7 +45,7 @@ export const RoleSelectionScreen = ({ onSelectRole }: RoleSelectionScreenProps) 
               onClick={() => setSelected(role.id)}
               className={`relative p-5 rounded-[28px] cursor-pointer transition-all duration-500 group overflow-hidden ${
                 isSelected
-                  ? 'bg-white text-white shadow-2xl shadow-teal-900/20 transform scale-[1.02] border border-teal-500'
+                  ? 'bg-white text-teal-500 shadow-2xl shadow-teal-900/20 transform scale-[1.02] border border-teal-500'
                   : 'bg-white text-zinc-900 border border-zinc-100 shadow-sm hover:shadow-md hover:border-teal-100'
               }`}
               style={{
@@ -67,7 +67,7 @@ export const RoleSelectionScreen = ({ onSelectRole }: RoleSelectionScreenProps) 
                     <Icon size={24} strokeWidth={2} />
                   </div>
                   <div>
-                    <h3 className={`font-bold text-lg mb-0.5 ${isSelected ? 'text-white' : 'text-zinc-900'}`}>{role.title}</h3>
+                    <h3 className={`font-bold text-lg mb-0.5 ${isSelected ? 'text-teal-500' : 'text-zinc-900'}`}>{role.title}</h3>
                     <p className={`text-xs font-medium ${isSelected ? 'text-zinc-400' : 'text-zinc-500'}`}>{role.desc}</p>
                   </div>
                 </div>

@@ -44,7 +44,6 @@ export const Header = ({ title, user, onBack, rightAction }: HeaderProps) => {
         </button>
       ) : user ? (
         <div className="flex items-center gap-3">
-          {/* Avatar: Shows Profile Photo if available, or generated Initials */}
           {user.photo_url ? (
             <img
               src={user.photo_url}
@@ -62,14 +61,21 @@ export const Header = ({ title, user, onBack, rightAction }: HeaderProps) => {
             <h1 className="text-lg font-bold text-zinc-900 tracking-tight leading-tight">
               {user.first_name} {user.last_name || ''}
             </h1>
-            {user.username && (
-              <p className="text-[11px] text-zinc-400 font-medium leading-none mt-0.5">
-                @{user.username}
-              </p>
-            )}
           </div>
         </div>
-      ) : null}
+      ) : (
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 rounded-full bg-teal-500 text-white flex items-center justify-center font-bold text-lg shadow-sm border-2 border-white">
+            {initials}
+          </div>
+          <div>
+            <p className="text-xs text-zinc-500 font-medium">{greeting}</p>
+            <h1 className="text-lg font-bold text-zinc-900 tracking-tight leading-tight">
+              Demo User
+            </h1>
+          </div>
+        </div>
+      )}
 
       {/* Center Title */}
       {title && (

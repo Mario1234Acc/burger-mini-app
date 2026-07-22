@@ -21,7 +21,7 @@ export default function App() {
   const [currentScreen, setCurrentScreen] = useState('MAIN');
   const [selectedClinic, setSelectedClinic] = useState<Clinic | null>(null);
 
-  const [currentUser] = useState<TelegramUser | null>(() => {
+  const [currentUser, setCurrentUser] = useState<TelegramUser | null>(() => {
     const tgUser = WebApp?.initDataUnsafe?.user;
     return tgUser
       ? {
@@ -66,7 +66,7 @@ export default function App() {
       case 'Record':
         return <RecordScreen />;
       case 'Profile':
-        return <ProfileScreen onSwitchApp={() => setAppMode('CLINIC')} />;
+        return <ProfileScreen user={currentUser} onSwitchApp={() => setAppMode('CLINIC')} />;
       default:
         return <HomeScreen onSelectClinic={handleClinicSelect} />;
     }
@@ -74,7 +74,7 @@ export default function App() {
 
   if (appMode === 'ONBOARDING') {
     return (
-      <div className="min-h-screen bg-zinc-200 flex flex-col items-center selection:bg-teal-200">
+      <div className="min-h-screen bg-black flex flex-col items-center selection:bg-teal-200">
         <div className="w-full max-w-md bg-white min-h-screen shadow-2xl relative overflow-hidden">
           <RoleSelectionScreen onSelectRole={(role) => setAppMode(role)} />
         </div>
@@ -84,7 +84,7 @@ export default function App() {
 
   if (appMode === 'CLINIC') {
     return (
-      <div className="min-h-screen bg-zinc-200 flex flex-col items-center selection:bg-teal-200">
+      <div className="min-h-screen bg-black flex flex-col items-center selection:bg-teal-200">
         <div className="w-full max-w-md bg-white min-h-screen shadow-2xl relative overflow-hidden">
           <ClinicDashboardScreen
             appointments={globalAppointments}
@@ -97,7 +97,7 @@ export default function App() {
   }
 
   return (
-    <div className="max-h-screen bg-white flex flex-col items-center font-sans selection:bg-teal-200">
+    <div className="max-h-screen bg-black flex flex-col items-center font-sans selection:bg-teal-200">
       <div className="w-full max-w-md bg-zinc-50 min-h-screen shadow-2xl flex flex-col relative overflow-hidden">
         {currentScreen === 'MAIN' && (
           <>
