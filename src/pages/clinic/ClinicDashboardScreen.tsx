@@ -10,9 +10,9 @@ import {
 
 import { CLINICS, DOCTORS, SERVICES } from '../../constants/appData';
 import { ClinicHome } from './ClinicHome';
-import { ClinicAppointment } from './ClinicAppointment';
 import { ClinicProfile } from './ClinicProfile';
 import type { Appointment, Clinic, Doctor } from '../../types';
+import { ClinicAppointment } from './ClinicAppointment';
 
 interface ClinicDashboardScreenProps {
   appointments: Appointment[];
@@ -110,17 +110,14 @@ export const ClinicDashboardScreen = ({ appointments, updateAppointment, onSwitc
 
   return (
     <div className="h-screen relative bg-slate-50 flex flex-col font-sans">
-      <header className="bg-slate-900 pt-10 pb-24 px-6 rounded-b-[40px] relative shadow-lg overflow-hidden">
+      <header className="bg-teal-500 mb-3 pt-10 pb-24 px-6 rounded-b-[40px] relative shadow-lg overflow-hidden">
         <div className="absolute -top-10 -right-10 w-48 h-48 bg-teal-500/20 blur-3xl rounded-full"></div>
         <div className="absolute top-10 -left-10 w-32 h-32 bg-blue-500/10 blur-2xl rounded-full"></div>
 
         <div className="flex justify-between items-center relative z-10 mt-2">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-teal-400 to-teal-600 text-white flex items-center justify-center font-extrabold text-xl shadow-md border border-teal-300/30">
-              SH
-            </div>
             <div>
-              <p className="text-teal-300 text-[10px] font-bold uppercase tracking-widest mb-0.5">Facility Portal</p>
+              <p className="text-teal-100 text-[10px] font-bold uppercase tracking-widest mb-0.5">Facility Portal</p>
               <h1 className="text-xl font-bold text-white leading-tight">Sunrise Admin</h1>
             </div>
           </div>
@@ -133,34 +130,32 @@ export const ClinicDashboardScreen = ({ appointments, updateAppointment, onSwitc
         </div>
       </header>
 
-      <div className="px-6 -mt-12 relative z-10 mb-6">
-        <div className="flex gap-4">
-          <div className="flex-1 bg-white rounded-[24px] p-4 shadow-xl shadow-slate-200/50 border border-slate-100 relative overflow-hidden group">
-            <div className="absolute -right-4 -top-4 w-16 h-16 bg-amber-50 rounded-full z-0 transition-transform group-hover:scale-110"></div>
-            <div className="relative z-10 flex justify-between items-start mb-1">
-              <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center"><Bell size={16} /></div>
-              <span className="text-2xl font-black text-slate-800">{pendingRequests.length}</span>
+      {activeTab !== 'Profile' && (
+        <div className="px-6 -mt-12 relative z-10 mb-6">
+          <div className="flex gap-4">
+            <div className="flex-1 bg-white rounded-[24px] p-4 shadow-xl shadow-slate-200/50 border border-slate-100 relative overflow-hidden group">
+              <div className="absolute -right-4 -top-4 w-16 h-16 bg-amber-50 rounded-full z-0 transition-transform group-hover:scale-110"></div>
+              <div className="relative z-10 flex justify-between items-start mb-1">
+                <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center"><Bell size={16} /></div>
+                <span className="text-2xl font-black text-slate-800">{pendingRequests.length}</span>
+              </div>
+              <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider relative z-10 mt-1">Pending Req.</p>
             </div>
-            <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider relative z-10 mt-1">Pending Req.</p>
-          </div>
-          <div className="flex-1 bg-white rounded-[24px] p-4 shadow-xl shadow-slate-200/50 border border-slate-100 relative overflow-hidden group">
-            <div className="absolute -right-4 -top-4 w-16 h-16 bg-teal-50 rounded-full z-0 transition-transform group-hover:scale-110"></div>
-            <div className="relative z-10 flex justify-between items-start mb-1">
-              <div className="w-8 h-8 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center"><Users size={16} /></div>
-              <span className="text-2xl font-black text-slate-800">{fullSchedule.length}</span>
+            <div className="flex-1 bg-white rounded-[24px] p-4 shadow-xl shadow-slate-200/50 border border-slate-100 relative overflow-hidden group">
+              <div className="absolute -right-4 -top-4 w-16 h-16 bg-teal-50 rounded-full z-0 transition-transform group-hover:scale-110"></div>
+              <div className="relative z-10 flex justify-between items-start mb-1">
+                <div className="w-8 h-8 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center"><Users size={16} /></div>
+                <span className="text-2xl font-black text-slate-800">{fullSchedule.length}</span>
+              </div>
+              <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider relative z-10 mt-1">Total Appts</p>
             </div>
-            <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider relative z-10 mt-1">Total Appts</p>
           </div>
         </div>
-      </div>
+      )}
 
       <main className="flex-grow overflow-y-auto animate-fade-in pb-28">
         {activeTab === 'Home' && (
-          <ClinicHome
-            pendingRequestsCount={pendingRequests.length}
-            fullScheduleCount={fullSchedule.length}
-            clinicInfo={clinicInfo}
-          />
+          <ClinicHome clinicInfo={clinicInfo} />
         )}
 
         {activeTab === 'Appointment' && (

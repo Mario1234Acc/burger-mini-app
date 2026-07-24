@@ -16,6 +16,7 @@ export const CLINICS: Clinic[] = [
     distance: '1.2 km',
     color: 'from-teal-500 to-emerald-400',
     image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    coverImage: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80',
   },
   {
     id: 2,
@@ -26,6 +27,7 @@ export const CLINICS: Clinic[] = [
     distance: '3.5 km',
     color: 'from-blue-500 to-indigo-400',
     image: 'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    coverImage: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80',
   },
   {
     id: 3,
@@ -36,6 +38,7 @@ export const CLINICS: Clinic[] = [
     distance: '0.8 km',
     color: 'from-orange-400 to-red-400',
     image: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    coverImage: 'https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80',
   },
 ];
 
