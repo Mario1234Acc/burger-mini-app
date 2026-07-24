@@ -13,6 +13,7 @@ export interface Clinic {
   distance: string;
   color: string;
   image: string;
+  coverImage?: string;
 }
 
 export interface Doctor {
