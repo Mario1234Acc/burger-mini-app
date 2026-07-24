@@ -1,9 +1,10 @@
 import { useState, useRef } from 'react';
-import { Plus, Pencil, Trash2 } from 'lucide-react';
+import { Plus, Pencil, Trash2, MapPin, ChevronDown } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import type { Clinic, Doctor } from '../../types';
 
+const PROVINCES = ['Phnom Penh', 'Siem Reap', 'Battambang', 'Kampot', 'Sihanoukville', 'Kandal'];
 interface ClinicProfileProps {
     clinicInfo: Clinic;
     services: string[];
@@ -100,22 +101,24 @@ export const ClinicProfile = ({
                         className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100"
                     />
 
-                    <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="grid gap-4">
                         <div>
-                            <label className="block text-sm font-semibold text-slate-700">Address</label>
-                            <input
-                                value={clinicInfo.address}
-                                onChange={(e) => onClinicFieldChange('address', e.target.value)}
-                                className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100"
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-sm font-semibold text-slate-700">Distance</label>
-                            <input
-                                value={clinicInfo.distance}
-                                onChange={(e) => onClinicFieldChange('distance', e.target.value)}
-                                className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100"
-                            />
+                            <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-2">
+                                Address
+                            </label>
+                            <div className="relative">
+                                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" size={18} />
+                                <select
+                                    className="w-full pl-10 pr-4 py-3.5 rounded-2xl border border-zinc-200 bg-zinc-50/50 outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-200 text-sm font-medium appearance-none cursor-pointer"
+                                >
+                                    {PROVINCES.map((province) => (
+                                        <option key={province} value={province}>
+                                            {province}
+                                        </option>
+                                    ))}
+                                </select>
+                                <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400 pointer-events-none" size={16} />
+                            </div>
                         </div>
                     </div>
 
