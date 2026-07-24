@@ -1,7 +1,16 @@
 import { useMemo, useState } from 'react';
 import { AlertCircle, Calendar, Check, CheckCircle2, ChevronRight, Clock, User } from 'lucide-react';
+
+// shadcn/ui imports
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+
 import { Header } from '../../components/common/Header';
-import { Modal } from '../../components/ui/Modal';
 import { DOCTORS, SERVICES, USER } from '../../constants/appData';
 import type { Clinic, Doctor } from '../../types';
 
@@ -146,44 +155,59 @@ export const ClinicDetailScreen = ({ clinic, onBack, onBook }: ClinicDetailScree
         </button>
       </div>
 
-      <Modal isOpen={showConfirmModal} onClose={() => setShowConfirmModal(false)} title="Review Booking">
-        <div className="space-y-4 animate-fade-in">
-          <div className="w-full bg-white border border-zinc-100 rounded-2xl p-5 space-y-4 shadow-sm">
-            <div className="flex flex-col border-b border-zinc-100 pb-3">
-              <span className="text-zinc-400 text-[10px] font-bold uppercase tracking-wider mb-1">Facility</span>
-              <span className="font-bold text-zinc-900 text-lg">{clinic.name}</span>
-            </div>
-            <div className="flex justify-between items-center border-b border-zinc-100 pb-3">
-              <span className="text-zinc-500 text-sm font-medium">Service</span>
-              <span className="font-bold bg-teal-50 text-teal-700 px-3 py-1 rounded-lg text-sm">{selectedService}</span>
-            </div>
-            <div className="flex justify-between items-center border-b border-zinc-100 pb-3">
-              <span className="text-zinc-500 text-sm font-medium">Specialist</span>
-              <span className="font-bold text-zinc-900 text-sm">Dr. {selectedDoctor.name}</span>
-            </div>
-            <div className="flex justify-between items-center pb-3 border-b border-zinc-100">
-              <span className="text-zinc-500 text-sm font-medium">Schedule</span>
-              <span className="font-bold text-sm text-right text-zinc-900">
-                <span className="text-teal-600">{date}</span> <br /> {time}
-              </span>
-            </div>
-            {note && (
-              <div className="flex flex-col pt-1">
-                <span className="text-zinc-500 text-sm font-medium mb-1">Note to Clinic</span>
-                <span className="text-zinc-700 text-sm italic">"{note}"</span>
+      {/* shadcn Dialog Component */}
+      <Dialog open={showConfirmModal} onOpenChange={setShowConfirmModal}>
+        <DialogContent className="sm:max-w-md rounded-[32px] p-6 bg-white border-zinc-100 shadow-xl">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-bold text-zinc-900">Review Booking</DialogTitle>
+          </DialogHeader>
+          
+          <div className="space-y-4 animate-fade-in mt-2">
+            <div className="w-full bg-white border border-zinc-100 rounded-2xl p-5 space-y-4 shadow-sm">
+              <div className="flex flex-col border-b border-zinc-100 pb-3">
+                <span className="text-zinc-400 text-[10px] font-bold uppercase tracking-wider mb-1">Facility</span>
+                <span className="font-bold text-zinc-900 text-lg">{clinic.name}</span>
               </div>
-            )}
+              <div className="flex justify-between items-center border-b border-zinc-100 pb-3">
+                <span className="text-zinc-500 text-sm font-medium">Service</span>
+                <span className="font-bold bg-teal-50 text-teal-700 px-3 py-1 rounded-lg text-sm">{selectedService}</span>
+              </div>
+              <div className="flex justify-between items-center border-b border-zinc-100 pb-3">
+                <span className="text-zinc-500 text-sm font-medium">Specialist</span>
+                <span className="font-bold text-zinc-900 text-sm">Dr. {selectedDoctor.name}</span>
+              </div>
+              <div className="flex justify-between items-center pb-3 border-b border-zinc-100">
+                <span className="text-zinc-500 text-sm font-medium">Schedule</span>
+                <span className="font-bold text-sm text-right text-zinc-900">
+                  <span className="text-teal-600">{date}</span> <br /> {time}
+                </span>
+              </div>
+              {note && (
+                <div className="flex flex-col pt-1">
+                  <span className="text-zinc-500 text-sm font-medium mb-1">Note to Clinic</span>
+                  <span className="text-zinc-700 text-sm italic">"{note}"</span>
+                </div>
+              )}
+            </div>
+            
+            <div className="flex gap-3 pt-2">
+              <Button 
+                variant="outline" 
+                onClick={() => setShowConfirmModal(false)} 
+                className="flex-1 h-12 rounded-xl border-zinc-200 text-zinc-700 font-bold hover:bg-zinc-100"
+              >
+                Edit
+              </Button>
+              <Button 
+                onClick={handleConfirm} 
+                className="flex-[2] h-12 bg-teal-600 hover:bg-teal-700 text-white rounded-xl font-bold shadow-md transition-all flex items-center justify-center gap-2"
+              >
+                <CheckCircle2 size={18} /> Confirm
+              </Button>
+            </div>
           </div>
-          <div className="flex gap-3 pt-2">
-            <button onClick={() => setShowConfirmModal(false)} className="flex-1 py-3.5 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl font-bold active:scale-95 transition-all">
-              Edit
-            </button>
-            <button onClick={handleConfirm} className="flex-[2] py-3.5 bg-teal-600 hover:bg-teal-700 text-white rounded-xl font-bold shadow-md active:scale-95 transition-all flex items-center justify-center gap-2">
-              <CheckCircle2 size={18} /> Confirm
-            </button>
-          </div>
-        </div>
-      </Modal>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

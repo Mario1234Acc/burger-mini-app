@@ -1,4 +1,4 @@
-import { ArrowLeftRight, UserCircle2, MessageCircle } from 'lucide-react';
+import {UserCircle2, MessageCircle, Phone } from 'lucide-react';
 
 interface TelegramUser {
   id: number;
@@ -6,11 +6,12 @@ interface TelegramUser {
   last_name?: string;
   username?: string;
   photo_url?: string;
+  phone_number?: string;
 }
 
 interface ProfileScreenProps {
-  onSwitchApp: () => void;
   user: TelegramUser | null;
+  onSwitchApp: () => void;
 }
 
 // Helper to safely get the user's display name
@@ -27,10 +28,11 @@ const getInitials = (user: TelegramUser | null) => {
   return (first + last).toUpperCase() || 'U';
 };
 
-export const ProfileScreen = ({ onSwitchApp, user }: ProfileScreenProps) => {
+export const ProfileScreen = ({ user, onSwitchApp }: ProfileScreenProps) => {
   const displayName = getDisplayName(user);
   const initials = getInitials(user);
   const displayUsername = user?.username ? `@${user.username}` : 'Not linked';
+  const displayPhoneNumber = user?.phone_number ? user.phone_number : 'Not provided';
 
   const patientId = user?.id ? user.id.toString().slice(-6) : '000000'; 
 
@@ -65,6 +67,7 @@ export const ProfileScreen = ({ onSwitchApp, user }: ProfileScreenProps) => {
         {[
           { label: 'Name', value: displayName, icon: UserCircle2 },
           { label: 'Telegram', value: displayUsername, icon: MessageCircle },
+          { label: 'PhoneNumber', value: displayPhoneNumber, icon: Phone },
         ].map((item, index, arr) => {
           const Icon = item.icon;
           return (
@@ -81,8 +84,8 @@ export const ProfileScreen = ({ onSwitchApp, user }: ProfileScreenProps) => {
         })}
       </div>
 
-      <button onClick={onSwitchApp} className="w-full mb-4 flex items-center justify-center gap-2 p-4 rounded-2xl text-teal-700 bg-teal-50 font-bold hover:bg-teal-100 transition-colors active:scale-95 border border-teal-100/50">
-        <ArrowLeftRight size={18} /> Switch to Clinic Portal
+      <button onClick={onSwitchApp} className="w-full mb-4 flex items-center justify-center gap-2 p-4 rounded-2xl text-white bg-teal-500 font-bold hover:bg-teal-200 hover:text-teal-700 transition-colors active:scale-95 border border-teal-100/50">
+       Back
       </button>
     </main>
   );

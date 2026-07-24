@@ -30,6 +30,7 @@ export default function App() {
           last_name: tgUser.last_name || undefined,
           username: tgUser.username || undefined,
           photo_url: tgUser.photo_url || undefined,
+          phone_number: tgUser.phone_number || undefined,
         }
       : null;
   });
@@ -66,7 +67,7 @@ export default function App() {
       case 'Record':
         return <RecordScreen />;
       case 'Profile':
-        return <ProfileScreen user={currentUser} onSwitchApp={() => setAppMode('CLINIC')} />;
+        return <ProfileScreen user={currentUser} onSwitchApp={() => setAppMode('ONBOARDING')} />;
       default:
         return <HomeScreen onSelectClinic={handleClinicSelect} />;
     }
